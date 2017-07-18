@@ -10,15 +10,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using jsreport.Types;
 using jsreport.Shared;
-using Newtonsoft.Json.Converters;
 
 namespace jsreport.Client
 {
     /// <summary>
-    /// jsreport API .net Wrapper
+    /// jsreport remote http API .net wrapper
     /// </summary>
     public class ReportingService : IReportingService
     {
@@ -36,6 +34,10 @@ namespace jsreport.Client
         /// Credentials for jsreport having authentication enabled
         /// </summary>
         public string Password { get; set; }
+
+        /// <summary>
+        /// Remote server url
+        /// </summary>
         public Uri ServiceUri { get; set; }
 
         /// <summary>
@@ -72,7 +74,7 @@ namespace jsreport.Client
         }
 
         /// <summary>
-        /// Specify comnpletely the rendering requests, see http://jsreport.net/learn/api for details
+        /// Specify comnpletely the rendering requests, see https://jsreport.net/learn/api for details
         /// </summary>
         /// <param name="request">ram name="request">Description of rendering process</param>
         /// <exception cref="JsReportException"></exception>
@@ -232,7 +234,8 @@ namespace jsreport.Client
             return new ReportHttp()
             {
                 Content = stream,
-                Meta = SerializerHelper.ParseReportMeta(meta)
+                Meta = SerializerHelper.ParseReportMeta(meta),
+                Response = response
             };
         }
     }
