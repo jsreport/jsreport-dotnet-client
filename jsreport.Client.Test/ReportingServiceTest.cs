@@ -9,7 +9,6 @@ using jsreport.Local;
 using Shouldly;
 using jsreport.Binary;
 using jsreport.Types;
-using Simple.OData.Client;
 
 namespace jsreport.Client.Test
 {
@@ -23,7 +22,7 @@ namespace jsreport.Client.Test
         [SetUp]
         public async Task SetUp()
         {           
-            _localReportingService = new LocalReporting().UseBinary(JsReportBinary.GetStream()).AsWebServer().Create();
+            _localReportingService = new LocalReporting().KillRunningJsReportProcesses().UseBinary(JsReportBinary.GetBinary()).AsWebServer().Create();
             await _localReportingService.StartAsync();            
             _reportingService = new ReportingService("http://localhost:5488");            
         }
@@ -223,7 +222,7 @@ namespace jsreport.Client.Test
         public async Task SetUp()
         {
             Console.WriteLine("Set up");
-            _localReportingService = new LocalReporting().UseBinary(JsReportBinary.GetStream()).Configure(cfg => cfg.Authenticated("admin", "password")).AsWebServer().Create();
+            _localReportingService = new LocalReporting().KillRunningJsReportProcesses().UseBinary(JsReportBinary.GetBinary()).Configure(cfg => cfg.Authenticated("admin", "password")).AsWebServer().Create();
             await _localReportingService.StartAsync();
             _reportingService = new ReportingService("http://localhost:5488", "admin", "password");
         }
@@ -246,16 +245,15 @@ namespace jsreport.Client.Test
         {
             _reportingService.Username = null;
             _reportingService.Password = null;
-
-            await _reportingService.RenderAsync(new RenderRequest()
+            var report = await _reportingService.RenderAsync(new RenderRequest()
+            {
+                Template = new Template()
                 {
-                    Template = new Template()
-                    {
-                        Content = "foo",
-                        Engine = Engine.None,
-                        Recipe = Recipe.Html
-                    }
-                }).ShouldThrowAsync<JsReportException>();            
+                    Content = "foo",
+                    Engine = Engine.None,
+                    Recipe = Recipe.Html
+                }
+            }).ShouldThrowAsync<JsReportException>();
         }        
     }   
 }

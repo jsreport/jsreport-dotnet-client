@@ -234,7 +234,7 @@ namespace jsreport.Client
             return new ReportHttp()
             {
                 Content = stream,
-                Meta = SerializerHelper.ParseReportMeta(meta),
+                Meta = SerializerHelper.ParseReportMetaFromHeaders(meta),
                 Response = response
             };
         }
