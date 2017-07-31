@@ -7,46 +7,31 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using jsreport.Local;
 using Shouldly;
+using jsreport.Binary;
+using jsreport.Types;
+using Simple.OData.Client;
 
 namespace jsreport.Client.Test
 {
     [TestFixture]
+    [SingleThreaded]
     public class ReportingServiceTest
     {
         private IReportingService _reportingService;
         private ILocalWebServerReportingService _localReportingService;        
 
         [SetUp]
-        public void SetUp()
+        public async Task SetUp()
         {           
-            _localReportingService = new LocalReporting().AsWebServer().Create();
-            _localReportingService.StartAsync().Wait();
-            _reportingService = new ReportingService("http://localhost:5488");
+            _localReportingService = new LocalReporting().UseBinary(JsReportBinary.GetStream()).AsWebServer().Create();
+            await _localReportingService.StartAsync();            
+            _reportingService = new ReportingService("http://localhost:5488");            
         }
 
         [TearDown]
-        public void TearDown()
-        {
-            _localReportingService.Kill();          
-        }
-
-        [Test]
-        public async Task HtmlTest()
-        {
-            var result = await _reportingService.RenderAsync(new
-            {
-                template = new
-                {
-                    content = "foo",
-                    engine = "none",
-                    recipe = "html"
-                }
-            });
-
-            using (var reader = new StreamReader(result.Content))
-            {
-                Assert.AreEqual("foo", reader.ReadToEnd());
-            }
+        public async Task TearDown()
+        {            
+            await _localReportingService.KillAsync();            
         }
 
         [Test]
@@ -64,9 +49,28 @@ namespace jsreport.Client.Test
 
             using (var reader = new StreamReader(result.Content))
             {
-                Assert.IsTrue(reader.ReadToEnd().StartsWith("%PDF"));
+                reader.ReadToEnd().ShouldStartWith("%PDF");
             }
-        }      
+        }
+
+        [Test]
+        public async Task HtmlTest()
+        {
+            var result = await _reportingService.RenderAsync(new
+            {
+                template = new
+                {
+                    content = "foo",
+                    engine = "none",
+                    recipe = "html"
+                }
+            });
+
+            using (var reader = new StreamReader(result.Content))
+            {
+                reader.ReadToEnd().ShouldBe("foo");
+            }
+        }           
 
         [Test]
         public async Task JsRenderTest()
@@ -87,7 +91,7 @@ namespace jsreport.Client.Test
 
             using (var reader = new StreamReader(result.Content))
             {
-                Assert.IsTrue(reader.ReadToEnd().StartsWith("hello"));
+                reader.ReadToEnd().ShouldStartWith("hello");
             }
         }
      
@@ -96,7 +100,7 @@ namespace jsreport.Client.Test
         {
             var recipes = await _reportingService.GetRecipesAsync();
 
-            Assert.IsTrue(recipes.Count() > 1);
+            recipes.Count().ShouldBeGreaterThan(1);
         }
 
         [Test]
@@ -104,7 +108,7 @@ namespace jsreport.Client.Test
         {
             var engines = await _reportingService.GetRecipesAsync();
 
-            Assert.IsTrue(engines.Count() > 1);
+            engines.Count().ShouldBeGreaterThan(1);            
         }
      
         [Test]
@@ -122,7 +126,7 @@ namespace jsreport.Client.Test
             }
             catch (JsReportException ex)
             {
-                Assert.IsTrue(ex.ResponseErrorMessage.Contains("NOT_EXISTING"));
+                ex.ResponseErrorMessage.ShouldContain("NOT_EXISTING");
             }
         }
 
@@ -183,7 +187,7 @@ namespace jsreport.Client.Test
         public async Task GetServerVersionTest()
         {
             var result = await _reportingService.GetServerVersionAsync();
-            Assert.IsTrue(result.Contains("."));
+            result.ShouldContain(".");
         }
 
         [Test]
@@ -203,29 +207,32 @@ namespace jsreport.Client.Test
             var reader = new StreamReader(report.Content);
 
             var str = reader.ReadToEnd();
-            Assert.IsTrue(str.Contains("iframe"));
-        }
+            str.ShouldContain("iframe");
+        }     
     }
 
     
     [TestFixture]
+    [SingleThreaded]
     public class AuthenticatedReportingServiceTest
     {
         private IReportingService _reportingService;
         private ILocalWebServerReportingService _localReportingService;
 
         [SetUp]
-        public void SetUp()
+        public async Task SetUp()
         {
-            _localReportingService = new LocalReporting().Configure(cfg => cfg.Authenticated("admin", "password")).AsWebServer().Create();
-            _localReportingService.StartAsync().Wait();
+            Console.WriteLine("Set up");
+            _localReportingService = new LocalReporting().UseBinary(JsReportBinary.GetStream()).Configure(cfg => cfg.Authenticated("admin", "password")).AsWebServer().Create();
+            await _localReportingService.StartAsync();
             _reportingService = new ReportingService("http://localhost:5488", "admin", "password");
         }
 
         [TearDown]
-        public void TearDown()
+        public async Task TearDown()
         {
-            _localReportingService.Kill();
+            Console.WriteLine("Tear down");
+            await _localReportingService.KillAsync();
         }
 
         [Test]
@@ -239,7 +246,16 @@ namespace jsreport.Client.Test
         {
             _reportingService.Username = null;
             _reportingService.Password = null;
-            await _reportingService.GetServerVersionAsync().ShouldThrowAsync<HttpRequestException>();
+
+            await _reportingService.RenderAsync(new RenderRequest()
+                {
+                    Template = new Template()
+                    {
+                        Content = "foo",
+                        Engine = Engine.None,
+                        Recipe = Recipe.Html
+                    }
+                }).ShouldThrowAsync<JsReportException>();            
         }        
     }   
 }
