@@ -16,3 +16,6 @@ deploy:
     secure: cm3zn2aDli94+zqlULKlvqQItEfAHHfqpBnUWILfZ8jp+8LjVdIllIH1CPFsXs0B
   on:
     appveyor_repo_tag: true
+test_script:
+- cd jsreport.Client.Test
+- dotnet test     
