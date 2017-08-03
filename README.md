@@ -1,4 +1,4 @@
-# jsreport-dotnet-client
+# jsreport.Client
 [![Build status](https://ci.appveyor.com/api/projects/status/81t7e9mcyvb1bfb5?svg=true)](https://ci.appveyor.com/project/pofider/jsreport-dotnet-client)
 [![NuGet](https://img.shields.io/nuget/v/jsreport.Client.svg)](https://nuget.org/packages/jsreport.Client)
 
