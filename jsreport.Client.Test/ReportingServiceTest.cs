@@ -55,13 +55,13 @@ namespace jsreport.Client.Test
         [Test]
         public async Task HtmlTest()
         {
-            var result = await _reportingService.RenderAsync(new
+            var result = await _reportingService.RenderAsync(new RenderRequest
             {
-                template = new
+                Template = new Template
                 {
-                    content = "foo",
-                    engine = "none",
-                    recipe = "html"
+                    Content = "foo",
+                    Engine = Engine.None,
+                    Recipe = Recipe.Html
                 }
             });
 
