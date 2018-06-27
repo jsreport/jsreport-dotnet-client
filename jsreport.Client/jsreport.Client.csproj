@@ -12,12 +12,12 @@
     <PackageTags>jsreport;report;pdf</PackageTags>
     <RepositoryUrl>https://github.com/jsreport/net</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>2.0.2</Version>
-    <AssemblyVersion>2.0.2</AssemblyVersion>
+    <Version>3.0.0-beta</Version>
+    <AssemblyVersion>3.0.0</AssemblyVersion>
     <Company>jsreport</Company>
     <PackageReleaseNotes>Release notes are at https://github.com/jsreport/jsreport-dotnet-client/releases</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <FileVersion>2.0.2.0</FileVersion>
+    <FileVersion>3.0.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.4.0" />
@@ -34,8 +34,8 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <PackageReference Include="jsreport.Types" Version="1.8.3" />        
-        <PackageReference Include="jsreport.Shared" Version="1.0.1" />
+        <PackageReference Include="jsreport.Types" Version="2.1.0-beta" />        
+        <PackageReference Include="jsreport.Shared" Version="2.0.0-beta" />
       </ItemGroup>
     </Otherwise>
   </Choose>

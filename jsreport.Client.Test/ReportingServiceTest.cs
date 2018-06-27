@@ -34,7 +34,7 @@ namespace jsreport.Client.Test
         }
 
         [Test]
-        public async Task PhantomPdfTest()
+        public async Task ChromePdfTest()
         {
             var result = await _reportingService.RenderAsync(new
             {
@@ -42,7 +42,7 @@ namespace jsreport.Client.Test
                 {
                     content = "foo",
                     engine = "none",
-                    recipe = "phantom-pdf"
+                    recipe = "chrome-pdf"
                 }
             });
 
@@ -119,7 +119,7 @@ namespace jsreport.Client.Test
                     template = new {
                         content = "foo",
                         engine = "NOT_EXISTING",
-                        recipe = "phantom-pdf"
+                        recipe = "chrome-pdf"
                     }
                 });
             }
@@ -140,7 +140,7 @@ namespace jsreport.Client.Test
                 {
                     content = "foo",
                     engine = "none",
-                    recipe = "phantom-pdf"
+                    recipe = "chrome-pdf"
                 }
             }).Wait());
 
@@ -159,7 +159,7 @@ namespace jsreport.Client.Test
                 {
                     content = "foo",
                     engine = "none",
-                    recipe = "phantom-pdf"
+                    recipe = "chrome-pdf"
                 }
             }, ts.Token).Wait());
 
@@ -177,7 +177,7 @@ namespace jsreport.Client.Test
                     content = "{{:~foo()}}",
                     helpers = "function foo() { while(true) { } }",
                     engine = "jsrender",
-                    recipe = "phantom-pdf"
+                    recipe = "chrome-pdf"
                 }
             }).ShouldThrowAsync<JsReportException>();
         }
@@ -195,7 +195,12 @@ namespace jsreport.Client.Test
             var report = await _reportingService.RenderAsync(new
             {
 
-                template = new { content = "<table><tr><td>a</td></tr></table>", recipe = "html-to-xlsx", engine = "jsrender" },
+                template = new {
+                    content = "<table><tr><td>a</td></tr></table>",
+                    recipe = "html-to-xlsx",
+                    engine = "jsrender",
+                    htmlToXlsx = new { htmlEngine = "chrome" }
+                },
                 options = new
                 {
                     preview = true
