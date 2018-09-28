@@ -25,7 +25,7 @@
       <ItemGroup>
         <ProjectReference Include="..\jsreport.Client\jsreport.Client.csproj" />
         <PackageReference Include="jsreport.Local" Version="2.0.0-beta" />
-        <PackageReference Include="jsreport.Binary" Version="2.1.0-beta2" />        
+        <PackageReference Include="jsreport.Binary" Version="2.2.0" />        
       </ItemGroup>
     </Otherwise>
   </Choose>
