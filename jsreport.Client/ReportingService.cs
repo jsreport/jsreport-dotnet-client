@@ -12,6 +12,7 @@ using System.IO.Compression;
 using Newtonsoft.Json;
 using jsreport.Types;
 using jsreport.Shared;
+using Newtonsoft.Json.Serialization;
 
 namespace jsreport.Client
 {
@@ -44,6 +45,11 @@ namespace jsreport.Client
         /// Timeout for http client requests
         /// </summary>
         public TimeSpan? HttpClientTimeout { get; set; }
+
+        /// <summary>
+        /// json.net contract resolver used for serializing rendering request data property
+        /// </summary>
+        public IContractResolver ContractResolverForDataProperty { get; set; }
         
         public ReportingService(string serviceUri, string username, string password) : this(serviceUri)
         {
@@ -81,7 +87,7 @@ namespace jsreport.Client
         /// <returns>Report result promise</returns>
         public Task<Report> RenderAsync(RenderRequest request, CancellationToken ct = default(CancellationToken))
         {
-            return RenderAsync(SerializerHelper.SerializeRenderRequest(request), ct);
+            return RenderAsync(SerializerHelper.SerializeRenderRequest(request, ContractResolverForDataProperty), ct);
         }
 
         // <summary>
@@ -93,7 +99,7 @@ namespace jsreport.Client
         /// <returns>Report result promise</returns>
         public Task<Report> RenderAsync(string templateShortid, object data, CancellationToken ct = default(CancellationToken))
         {
-            return RenderAsync(SerializerHelper.SerializeRenderRequest(templateShortid, data), ct);
+            return RenderAsync(SerializerHelper.SerializeRenderRequest(templateShortid, data, ContractResolverForDataProperty), ct);
         }
 
         /// <summary>
@@ -105,7 +111,7 @@ namespace jsreport.Client
         /// <returns>Report result promise</returns>
         public Task<Report> RenderAsync(string templateShortid, string jsonData, CancellationToken ct = default(CancellationToken))
         {
-            return RenderAsync(SerializerHelper.SerializeRenderRequest(templateShortid, jsonData), ct);
+            return RenderAsync(SerializerHelper.SerializeRenderRequest(templateShortid, jsonData, ContractResolverForDataProperty), ct);
         }
 
         /// <summary>
@@ -116,7 +122,7 @@ namespace jsreport.Client
         /// <returns>Report result promise</returns>
         public Task<Report> RenderAsync(object request, CancellationToken ct = default(CancellationToken))
         {
-            return RenderAsync(SerializerHelper.SerializeRenderRequest(request), ct);
+            return RenderAsync(SerializerHelper.SerializeRenderRequest(request, ContractResolverForDataProperty), ct);
         }
 
         /// <summary>
@@ -128,7 +134,7 @@ namespace jsreport.Client
         /// <returns>Report result promise</returns>
         public Task<Report> RenderByNameAsync(string templateName, string jsonData, CancellationToken ct = default(CancellationToken))
         {
-            return RenderAsync(SerializerHelper.SerializeRenderRequestForName(templateName, jsonData), ct);
+            return RenderAsync(SerializerHelper.SerializeRenderRequestForName(templateName, jsonData, ContractResolverForDataProperty), ct);
         }
 
         /// <summary>
@@ -140,7 +146,7 @@ namespace jsreport.Client
         /// <returns>Report result promise</returns>
         public Task<Report> RenderByNameAsync(string templateName, object data, CancellationToken ct = default(CancellationToken))
         {
-            return RenderAsync(SerializerHelper.SerializeRenderRequestForName(templateName, data), ct);
+            return RenderAsync(SerializerHelper.SerializeRenderRequestForName(templateName, data, ContractResolverForDataProperty), ct);
         }
       
         private async Task<Report> RenderAsync(string request, CancellationToken ct = default(CancellationToken))

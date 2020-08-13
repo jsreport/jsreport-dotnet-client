@@ -9,6 +9,7 @@ using jsreport.Local;
 using Shouldly;
 using jsreport.Binary;
 using jsreport.Types;
+using Newtonsoft.Json.Serialization;
 
 namespace jsreport.Client.Test
 {
@@ -16,7 +17,7 @@ namespace jsreport.Client.Test
     [SingleThreaded]
     public class ReportingServiceTest
     {
-        private IReportingService _reportingService;
+        private ReportingService _reportingService;
         private ILocalWebServerReportingService _localReportingService;        
 
         [SetUp]
@@ -51,6 +52,31 @@ namespace jsreport.Client.Test
                 reader.ReadToEnd().ShouldStartWith("%PDF");
             }
         }
+
+        [Test]
+        public async Task SerializationDataContractResolverTest()
+        {
+            _reportingService.ContractResolverForDataProperty = new CamelCasePropertyNamesContractResolver();
+            var result = await _reportingService.RenderAsync(new
+            {
+                template = new
+                {
+                    content = "{{helloWorld}}",
+                    engine = "handlebars",
+                    recipe = "html"
+                },
+                data = new
+                {
+                    HelloWorld = "foo"
+                }
+            });
+
+            using (var reader = new StreamReader(result.Content))
+            {
+                reader.ReadToEnd().ShouldStartWith("foo");
+            }
+        }
+
 
         [Test]
         public async Task HtmlTest()
