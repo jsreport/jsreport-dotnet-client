@@ -34,8 +34,8 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <PackageReference Include="jsreport.Types" Version="2.7.0" />        
-        <PackageReference Include="jsreport.Shared" Version="2.3.0" />
+        <PackageReference Include="jsreport.Types" Version="2.7.1" />        
+        <PackageReference Include="jsreport.Shared" Version="2.3.2" />
       </ItemGroup>
     </Otherwise>
   </Choose>
