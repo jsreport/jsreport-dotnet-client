@@ -34,7 +34,7 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <PackageReference Include="jsreport.Types" Version="3.0.0" />        
+        <PackageReference Include="jsreport.Types" Version="3.0.1" />        
         <PackageReference Include="jsreport.Shared" Version="2.3.2" />
       </ItemGroup>
     </Otherwise>
