@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
-    <PackageReference Include="NUnit" Version="3.7.1" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
-    <PackageReference Include="Shouldly" Version="2.8.3" />    
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.0" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
+    <PackageReference Include="Shouldly" Version="4.0.3" />    
   </ItemGroup>  
 
   <Choose>
@@ -24,8 +24,8 @@
     <Otherwise>
       <ItemGroup>
         <ProjectReference Include="..\jsreport.Client\jsreport.Client.csproj" />
-        <PackageReference Include="jsreport.Local" Version="2.2.3" />
-        <PackageReference Include="jsreport.Binary" Version="2.9.0" />        
+        <PackageReference Include="jsreport.Local" Version="2.3.2" />
+        <PackageReference Include="jsreport.Binary" Version="3.8.0" />        
       </ItemGroup>
     </Otherwise>
   </Choose>

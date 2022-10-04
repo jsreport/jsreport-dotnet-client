@@ -8,17 +8,29 @@
     <PackageProjectUrl>http://jsreport.net</PackageProjectUrl>
     <PackageLicenseUrl>http://www.opensource.org/licenses/mit-license.php</PackageLicenseUrl>
     <PackageIconUrl>http://jsreport.net/img/favicon.ico</PackageIconUrl>
-    <Copyright>Copyright 2013-2017 Jan Blaha</Copyright>
+    <Copyright>Copyright 2013-2022 Jan Blaha</Copyright>
     <PackageTags>jsreport;report;pdf</PackageTags>
     <RepositoryUrl>https://github.com/jsreport/net</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>3.2.1</Version>
-    <AssemblyVersion>3.2.1</AssemblyVersion>
+    <Version>3.8.0</Version>
+    <AssemblyVersion>3.8.0</AssemblyVersion>
     <Company>jsreport</Company>
     <PackageReleaseNotes>Release notes are at https://github.com/jsreport/jsreport-dotnet-client/releases</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <FileVersion>3.2.1.0</FileVersion>
+    <FileVersion>3.8.0.0</FileVersion>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.4.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
@@ -34,8 +46,8 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <PackageReference Include="jsreport.Types" Version="3.0.1" />        
-        <PackageReference Include="jsreport.Shared" Version="2.3.2" />
+        <PackageReference Include="jsreport.Types" Version="3.8.1" />        
+        <PackageReference Include="jsreport.Shared" Version="3.8.0" />
       </ItemGroup>
     </Otherwise>
   </Choose>
