@@ -13,7 +13,7 @@ before_build:
 deploy:
   provider: NuGet
   api_key:
-    secure: 4fzGkFShqQOo4eE2dcjEWvp3FwHDVrZ9h4bvj2jeUNzKAC+jXNGtPOeBdgZFjpxR
+    secure: bAvzGZkRLdXslqjhneI/rdbYgOoDF8DY3q2ewaG/OKW0ze8lJEh2Jyv7XCv8JcWH
   on:
     appveyor_repo_tag: true
 test_script:
