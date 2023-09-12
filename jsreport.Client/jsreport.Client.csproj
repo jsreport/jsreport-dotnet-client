@@ -12,12 +12,12 @@
     <PackageTags>jsreport;report;pdf</PackageTags>
     <RepositoryUrl>https://github.com/jsreport/net</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>3.8.0</Version>
-    <AssemblyVersion>3.8.0</AssemblyVersion>
+    <Version>3.8.1</Version>
+    <AssemblyVersion>3.8.1</AssemblyVersion>
     <Company>jsreport</Company>
     <PackageReleaseNotes>Release notes are at https://github.com/jsreport/jsreport-dotnet-client/releases</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <FileVersion>3.8.0.0</FileVersion>
+    <FileVersion>3.8.1.0</FileVersion>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
